@@ -1,18 +1,26 @@
 (ns leiningen.kalar
-  [:use [clojure.java.io :only [file]]
-        [leinjacker.eval :only [eval-in-project]]]
-  [:require [hiccup.core :as hcore]
-            [hiccup.page :as hpage]])
+  [:require [clojure.java.io :as io]
+            [clojure.edn :as edn]
+            [me.raynes.fs :as fs]])
+
+(defn- read-config []
+  (io/file "resources" "config.edn")
+  )
+
+(defn- clean [project]
+  (let [dest (-> (read-config) slurp edn/read-string)]
+    (fs/delete-dir (io/file "resources" (:dest dest)))))
+
+
+(defn- compile [project]
+  nil)
 
 (defn kalar
-  "I don't do a lot.
-  https://github.com/technomancy/leiningen/blob/master/doc/PLUGINS.md#evaluating-in-project-context"
-  [project & args]
-  (let [config (symbol (str (:name  project) ".core/config"))
-        config-ns (symbol (str (:name  project) ".core"))]
-    (eval-in-project project `(println ~config) `(require '~config-ns))
-    (eval-in-project project `(println (meta  (nth (vals (ns-publics 'kalar-demo.temp)) 0))) `(require 'kalar-demo.temp))
-    ))
-
-
-
+  "Automatically write all the project's code."
+  {:subtasks [#'clean]}
+  [project & [sub-name]]
+  (case sub-name
+    "clean" (clean project)
+    "compile" (compile project)
+    nil            :not-implemented-yet
+    (leiningen.core.main/warn "Unknown task.")))
