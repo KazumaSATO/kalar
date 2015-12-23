@@ -4,11 +4,10 @@
             [me.raynes.fs :as fs]])
 
 (defn- read-config []
-  (io/file "resources" "config.edn")
-  )
+  (-> (io/file "resources" "config.edn") slurp edn/read-string))
 
 (defn- clean [project]
-  (let [dest (-> (read-config) slurp edn/read-string)]
+  (let [dest (read-config)]
     (fs/delete-dir (io/file "resources" (:dest dest)))))
 
 
