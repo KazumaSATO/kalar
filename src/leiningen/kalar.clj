@@ -19,9 +19,14 @@
 (defn kalar
   "Automatically write all the project's code."
   {:subtasks [#'clean]}
-  [project & [sub-name]]
-  (case sub-name
+  [project & args]
+  (case (first args)
     "clean" (clean project)
     ;    "compile" (kompile project)
-    nil            :not-implemented-yet
-    (leiningen.core.main/warn "Unknown task.")))
+    ; nil            :not-implemented-yet
+    ;(leiningen.core.main/warn "Unknown task.")
+    (let [command (first args)
+          rest-args (rest args)
+          nmsp (symbol (str "kalar." command))
+          func (symbol (str nmsp "/" command))]
+      (leval/eval-in-project project `(~func ~@rest-args) `(require '~nmsp)))))
