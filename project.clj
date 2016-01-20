@@ -1,4 +1,4 @@
-(defproject kalar "0.1.0"
+(defproject kalar "0.1.1-SNAPSHOT"
   :description "a leiningen plugin"
   :url "https://github.com/satokazuma/kalar"
   :license {:name "The MIT License"
