@@ -1,4 +1,4 @@
-(ns leiningen.kalar
+(ns leiningen.tamaki
   [:require [clojure.java.io :as io]
             [clojure.edn :as edn]
             [leiningen.core.eval :as leval]
@@ -16,17 +16,20 @@
   "FIXME"
   (leval/eval-in-project project '(kalar-core.server/load-plugins) '(require 'kalar-core.server)))
 
-(defn kalar
+(defn tamaki
   "Automatically write all the project's code."
   {:subtasks [#'clean]}
   [project & args]
   (case (first args)
-    "clean" (clean project)
+    "clean" (leval/eval-in-project project '(tamaki-core.file/clean-dest) '(require 'tamaki-core.file))
+    "compile"(leval/eval-in-project project '(tamaki-core.server/tcompile) '(require 'tamaki-core.server))
     ;    "compile" (kompile project)
     ; nil            :not-implemented-yet
-    ;(leiningen.core.main/warn "Unknown task.")
-    (let [command (first args)
+    (leiningen.core.main/warn "Unknown task.")))
+(comment
+  (let [command (first args)
           rest-args (rest args)
           nmsp (symbol (str "kalar." command))
           func (symbol (str nmsp "/" command))]
-      (leval/eval-in-project project `(~func ~@rest-args) `(require '~nmsp)))))
+      (leval/eval-in-project project `(~func ~@rest-args) `(require '~nmsp)))
+  )
