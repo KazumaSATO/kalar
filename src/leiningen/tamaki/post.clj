@@ -32,6 +32,5 @@
   ([]
    (let [similarities (calc-post-similarity)
          report-dir (io/file (-> (cnfg/read-config) :report-dir))]
-      (println (cnfg/read-config))
      (fs/mkdirs report-dir)
      (spit (io/file report-dir "similarity.edn") (pr-str similarities)))))
