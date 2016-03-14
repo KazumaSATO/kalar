@@ -23,8 +23,8 @@
   [project & args]
   (case (first args)
     "clean" (leval/eval-in-project project '(tamaki-core.file/clean-dest) '(require 'tamaki-core.file))
-    "compile"(leval/eval-in-project project '(tamaki-core.server/tcompile) '(require 'tamaki-core.server))
-    "similarity" (tpost/report-post-similarity)
+    "compile" (leval/eval-in-project project '(tamaki-core.server/tcompile) '(require 'tamaki-core.server))
+    "similarity" (leval/eval-in-project project '(tamaki.post.post/report-post-similarity) '(require 'tamaki.post.post))
     ; nil            :not-implemented-yet
     (leiningen.core.main/warn "Unknown task.")))
 
