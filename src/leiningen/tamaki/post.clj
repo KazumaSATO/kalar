@@ -25,8 +25,13 @@
           :relation (map #(assoc {} :post (:key %) :score (:score %))
                          (simi/calc-similarity (:text key-text) (remove #(= (:key key-text) (:key %)) key-texts)))})))))
 
-
 (defn report-post-similarity
   ([dest post-dir post-dest]
    (let [similarities (calc-post-similarity post-dir post-dest)]
-     (spit dest (pr-str similarities)))))
+     (spit dest (pr-str similarities))))
+  ([]
+   (let [similarities (calc-post-similarity)
+         report-dir (io/file (-> (cnfg/read-config) :report-dir))]
+      (println (cnfg/read-config))
+     (fs/mkdirs report-dir)
+     (spit (io/file report-dir "similarity.edn") (pr-str similarities)))))
