@@ -26,3 +26,7 @@
                          (simi/calc-similarity (:text key-text) (remove #(= (:key key-text) (:key %)) key-texts)))})))))
 
 
+(defn report-post-similarity
+  ([dest post-dir post-dest]
+   (let [similarities (calc-post-similarity post-dir post-dest)]
+     (spit dest (pr-str similarities)))))
