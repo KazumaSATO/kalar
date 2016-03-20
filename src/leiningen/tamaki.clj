@@ -2,7 +2,6 @@
   [:require [clojure.java.io :as io]
             [clojure.edn :as edn]
             [leiningen.core.eval :as leval]
-            [leiningen.tamaki.post :as tpost]
             [me.raynes.fs :as fs]])
 
 (defn- read-config []
