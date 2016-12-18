@@ -7,5 +7,5 @@
   ;{:subtasks [#'clean]}
   [project & args]
   (if (invk/defined-step? (first args))
-    (leval/eval-in-project project `(tamaki-core.invoke/proc ~@args) '(require 'tamaki-core.invoke))
+    (leval/eval-in-project project `(tamaki-core.invoke/build ~@args) '(require 'tamaki-core.invoke))
     (leiningen.core.main/warn "Unknown task.")))
