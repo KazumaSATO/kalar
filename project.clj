@@ -1,4 +1,4 @@
-(defproject lein-tamaki "0.2.0.0-SNAPSHOT"
+(defproject lein-tamaki "0.2.0.0"
   :description "a leiningen plugin"
   :url "https://github.com/satokazuma/lein-tamaki"
   :license {:name "The MIT License"
